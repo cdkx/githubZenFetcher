@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-zen-phrases-table
+      author: eremin
+      changes:
+        - createTable:
+            tableName: zen_phrases
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: phrase
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: phrase_count
+                  type: BIGINT
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 002-add-check-phrase-count
+      author: eremin
+      changes:
+        - sql:
+            sql: ALTER TABLE zen_phrases ADD CONSTRAINT chk_phrase_count_non_negative CHECK (phrase_count >= 0);
